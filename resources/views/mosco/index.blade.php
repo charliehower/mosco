@@ -104,8 +104,10 @@
                 </form>
             @endif
         @endif
+        
         @endforeach
         @foreach ($nav as $i)
+        
         @if($i->id==$now)
             <?php
                 $mycp=$me->complish($i);
@@ -185,14 +187,17 @@
                 </form>
             @endif
         @endif
+        
         @endforeach
+        
         @else
+
         @foreach ($nav as $i)
         @if($i->id==$now)
             <?php
                 $mycp=$me->complish($i);
             ?>
-            @if($i->type=='导评项'||$i->ename=='work')
+            @if($i->type=='导评项' || $i->ename=='work')
                 <h1 class="ui header">
                     <i class="olive cloud icon"></i>
                     <div class="content">{{$i->name}}</div>
@@ -205,7 +210,6 @@
                   </ul>
                 </div>
                 <form class="ui form" action="" method="post">
-
               {!! csrf_field() !!}
                 <table class="ui selectable teal celled table  center aligned">
                     <thead>
@@ -355,7 +359,7 @@
                     else {
                         btn.html("更新");
                         $('#progressbar').progress('increment');
-                        location.href='{{ url('mosco')}}/nav/{{$now==2?4:($now%5+1)}}';
+                        location.href='{{ url('mosco')}}/nav/{{$now==5?7:($now%9+1)}}';
                     }
                 }else
                     alert(response.info);

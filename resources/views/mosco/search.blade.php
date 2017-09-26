@@ -19,16 +19,11 @@
       </ul>
     </div>
     <form>
-    <div class="ui search">
+<div class="ui search">
       <div class="ui icon input">
         <input class="prompt" type="text" id="id" placeholder="2015211...">
         <i class="circular search link icon" onclick="$('form').submit();"></i>
-      </div>
-      <button class="ui button olive" onclick="window.open('output_act');">导出EXCEL</button>
-      <div class="results"></div>
-    </div>
-    </form>
-    
+      </div>  
     @if( $id )
         @if(($user=User::where('id', $id)->first())&&$user->title()!='辅导员')
             <p>学号：「{{$user->id}}」 查询到的用户：姓名：「{{$user->name}}」，班级：「{{$user->class}}」 </p>
@@ -42,6 +37,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                <?php $n=App\Nav::find(6); ?>
                 @foreach ($acts as $act)
                     <tr>
                         <td class="table-text">
@@ -53,7 +49,7 @@
                         <td class="table-text">
                             {{ $act->detail }}
                         </td>
-                        <?php $oldval=$user->oldval($user,Nav::find(6),'6_'.$act->id);?>
+                        <?php $oldval=$user->oldval($user,$n,'6_'.$act->id);?>
                         <td class="text {{$oldval?"negative":""}}">
                         {{$oldval}}
                         </td>
@@ -84,7 +80,11 @@
         <p> &nbsp;</p>
         <p> &nbsp;</p>
     @endif
-    <p> &nbsp;</p>
+</div>
+    </form>
+    
+      <button class="ui button olive" onclick="window.open('output_act');">导出EXCEL</button>
+
 @endsection
 @section('footer')
 @include('mosco.footer',['mytitle'=>$mytitle]);
@@ -94,7 +94,7 @@
 
     $('form').submit(function(e){
         e.preventDefault();
-        location.href="{{ url('mosco/search?id=')}}"+$('#id').val();
+        location.href="{{ url('mosco')}}/search/"+$('#id').val();
     });
     </script>
 @endsection

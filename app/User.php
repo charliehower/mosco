@@ -70,6 +70,7 @@ class User extends Authenticatable
         if($t->count())return $t[0]->rank;
         return 99;
     }
+    //我的职务是否对应$i职务
     public function dy($i){
         if($i->rank()==$this->rank()||
             $i->rank()!=4&&$i->rank()!=7||
@@ -160,13 +161,10 @@ class User extends Authenticatable
      *
      */
     public function scores($can=null,$nav=null){
-
         if(!$this->_scores){
             $this->_scores=$this->hasMany('App\Score')->get();
         }
-
         if($can&&$nav){
-           
             foreach ($this->_scores as $key => $value) {
                 if($value->candiate==$can && $value->nav==$nav)
                 {
@@ -253,7 +251,7 @@ class User extends Authenticatable
         if($nav->ename=='xueshenghui'||$nav->ename=='competition'||$nav->ename=='sports')
             return 0;//学生会、竞赛不在这里计算
         if($nav->ename=='work')
-            return 5;//学生工作加分的默认最高分=5
+            return $this->toScore($ta)+1;//学生工作加分的默认最高分=起始分+1
        return $nav->end;//默认最高分
     }
     /*

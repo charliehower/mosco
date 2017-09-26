@@ -1,10 +1,5 @@
-<?php
-    use App\User,App\Nav;
-    $tol=0;
-    $mytitle = $me->title();
-    $id=isset($_GET['id'])?$_GET['id']:$me->id;
-?>
-@extends('mosco.main')
+<?php use App\Nav,App\User; ?>
+@extends('layouts.main',['now'=>0])
 @section('title','分数详情页')
 @section('nav')
 <div class="ui eight fixed item main menu olive">
@@ -20,15 +15,14 @@
         <i class="olive Selected Radio icon"></i>
         <div class="content">分数详情页</div>
     </h1>
-
         <div class="ui info message">
           <i class="close icon"></i>
           <div class="header">说明</div>
           <ul class="list">
-            <li><p>学生会加分和学生工作取最高不累加,竞赛加分将加入总评（非德育分）.</p></li>
+            <li><p>学生会加分和学生工作取最高不累加,竞赛加分将加入总评（非德育分）</p></li>
             <li><p>文娱体育最高为10分.</p></li>
             <li><p>点击下方“预览和打印”按钮可以导出表格文件</p></li>
-			<li><p>由于总分是每项未四舍五入时计算的，故与当前各项之和会有偏差</p></li>
+			<li><p>由于总分是每项未四舍五入时计算的，故与当前各项之和可能会有偏差</p></li>
           </ul>
         </div>
     @if($mytitle=='辅导员')
@@ -41,18 +35,12 @@
         </div>
         </form>
     @endif
-
-    @if($id)
-        <?php $sb=User::find($id);?>
-        @if( $sb )
-<button class="ui button olive" onclick="location.href='{{ url('mosco')}}/judge?id={{$id-1}}';">-1</button>
+    @if($sb)
+<button class="ui button olive" onclick="location.href='{{ url('mosco')}}/judge/{{$id-1}}';">上一个</button>
 <button class="ui button olive" onclick="preview();">预览并打印</button>
-<button class="ui button olive" onclick="location.href='{{ url('mosco')}}/judge?id={{$id+1}}';">+1</button>
+<button class="ui button olive" onclick="location.href='{{ url('mosco')}}/judge/{{$id+1}}';">下一个</button>
         <!--startprint-->
-                <p>学号：{{$sb->id}} &nbsp; 姓名：{{$sb->name}} &nbsp; 班级： {{$sb->class}} &nbsp; 签字：</p>
-
-            <?php
-            /*
+            <p>学号：{{$sb->id}} &nbsp; 姓名：{{$sb->name}} &nbsp; 班级： {{$sb->class}} &nbsp; 签字：</p>
             <table class="ui selectable single line celled table center aligned">
                 <thead>
                     <tr>
@@ -86,24 +74,24 @@
                             @foreach($navs as $n)
                                 @if($n->type=='互评项'&&$n->ename!='work')
                                     <td class="table-text">
-                                    <?php
-
+                                <?php
                                     $score=$sb->scores($t->id,$n->id);
-                                    ?>
-                                        {{$score?$score->score:($sb->complish($n)?$sb->defsco($t,$n->id):"/")}}
+                                    if($score)
+                                        echo $score->score;
+                                    else if($sb->complish($n))
+                                        echo $sb->defsco($t,$n);
+                                    else echo "/";
+                                ?>
                                     </td>
                                 @endif
                             @endforeach
                         <?php echo ($i%2?"":"</tr><tr>"); ?>
                         @endif
                     @endforeach
-
                     <?php echo ($i%2?"<td></td><td></td><td></td><td></td><td></td><td></td></tr>":""); ?>
                     </tr>
                </tbody>
             </table>
-
-
             <table class="ui selectable single line celled table center aligned">
                 <thead>
                     <tr>
@@ -122,23 +110,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php $i=0;?>
+                    <?php $i=0;$n=Nav::find(7);//学生工作 ?>
                 <tr>
-                    @if($sb->complish())
+                    @if($sb->complish($n))
                     @foreach(User::All() as $user)
                         @if($sb->toScore($user))
                             <td class="table-text positive">
-                                {{ $user->id }}
-                                <?php $i++;?>
+                                {{$user->id}}
                             </td>
                             <td>{{$user->title()}}</td>
-                            <td>{{$sb->oldval($user,Nav::find(8))}}</td>
-                            <?php echo ($i%4?"":"</tr><tr>"); ?>
+                            <td>{{$sb->oldval($user,$n)}}</td>
+                            <?php echo ($i++%4?"":"</tr><tr>"); ?>
                         @endif
                     @endforeach
                     @endif
                     <?php for($j=0;$j<(4-$i%4)%4;$j++)echo "<td></td><td></td><td></td>"; ?>
-                    </tr>
+                </tr>
                 </tbody>
             </table>
 
@@ -159,7 +146,7 @@
                 <tbody>
                     <?php $i=0;?>
                     <tr>
-                        @foreach ($sb->scores()->get() as $t)
+                        @foreach ($sb->scores() as $t)
                             <?php
                                 $array=explode('_',$t->nav);
                                 $act=0;
@@ -217,37 +204,20 @@
             </tr>
             </table>
             @endif
-            */?>
             <!--endprint-->
-            <button class="ui button olive" onclick="location.href='{{ url('mosco')}}/judge?id={{$id-1}}';">-1</button>
+        <button class="ui button olive" onclick="location.href='{{ url('mosco')}}/judge/{{$id-1}}';">上一个</button>
 <button class="ui button olive" onclick="preview();">预览并打印</button>
-<button class="ui button olive" onclick="location.href='{{ url('mosco')}}/judge?id={{$id+1}}';">+1</button>
+        <button class="ui button olive" onclick="location.href='{{ url('mosco')}}/judge/{{$id+1}}';">下一个</button>
 
-    	@else
-    	    <div class="ui negative message">
-              <i class="close icon"></i>
-              <div class="header">不好意思！</div>
-              <p>没有查到学号 「{{$id}}」 的同学。</p>
+	@else
+	    <div class="ui negative message">
+          <i class="close icon"></i>
+          <div class="header">不好意思！</div>
+          <p>没有查到学号 「{{$id}}」 的同学。</p>
 
-            </div>
-            <button class="ui button olive" onclick="location.href='{{ url('mosco')}}/judge?id={{$id-1}}';">-1</button>
-            <button class="ui button olive" onclick="location.href='{{ url('mosco')}}/judge?id={{$id+1}}';">+1</button>
-        @endif
-    @else
-        <p> &nbsp;</p>
-        <p> &nbsp;</p>
-        <p> &nbsp;</p>
-        <p> &nbsp;</p>
-        <p> &nbsp;</p>
-        <p> &nbsp;</p>
-        <p> &nbsp;</p>
-        <p> &nbsp;</p>
-        <p> &nbsp;</p>
-        <p> &nbsp;</p>
-        <p> &nbsp;</p>
-        <p> &nbsp;</p>
-        <p> &nbsp;</p>
-        <p> &nbsp;</p>
+        </div>
+        <button class="ui button olive" onclick="location.href='{{ url('mosco')}}/judge/{{$id-1}}';">上一个</button>
+        <button class="ui button olive" onclick="location.href='{{ url('mosco')}}/judge/{{$id+1}}';">下一个</button>
     @endif
     <p> &nbsp;</p>
 @endsection
@@ -261,7 +231,7 @@
     @if($mytitle=='辅导员')
         $('form').submit(function(e){
             e.preventDefault();
-            location.href='{{ url('mosco')}}/judge?id='+$('#id').val();
+            location.href='{{ url('mosco')}}/judge/'+$('#id').val();
         });
     @endif
     function preview()

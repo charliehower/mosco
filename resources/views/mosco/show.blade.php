@@ -85,10 +85,12 @@ $users=User::paginate(10);
         @endif
         </tbody>
     </table>
-    @if($mytitle=='辅导员')
-    @endif
+    
     <button class="ui button olive" onclick="window.open('output');">导出EXCEL</button>
+    
+    @if($mytitle=='辅导员')
     <p> {!!$users->render()!!}</p>
+    @endif
 @endsection
 @section('footer')
 @include('mosco.footer',['mytitle'=>$mytitle]);

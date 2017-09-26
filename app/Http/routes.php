@@ -39,7 +39,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('mosco/search/{id?}', 'MosController@search');
     Route::get('mosco/show', 'MosController@show');
     Route::get('mosco/output', 'MosController@output');
-    Route::get('mosco/judge', 'MosController@judge');
+
+    Route::get('mosco/output_act', 'MosController@output_act');
+    Route::get('mosco/judge/{id?}/', 'MosController@judge');
     Route::post('mosco/update', 'MosController@update');
     Route::get('resetpassword', 'Auth\ChangePasswordController@index');
     Route::post('resetpassword', 'Auth\ChangePasswordController@change');

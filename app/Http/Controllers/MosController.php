@@ -25,11 +25,15 @@ class MosController extends Controller{
      * 渲染我的打分页
      *
      */
-    public function judge(){
+    public function judge($id=0){
         return view('mosco.judge', [
-            'me'=>Auth::user(),
-            'navs'=>Nav::all(),
-            'scores'=>Score::all()
+            'me'    =>Auth::user(),
+            'navs'  =>Nav::all(),
+            'scores'=>Score::all(),
+            'sb'    =>$id?User::find($id):Auth::user(),
+            'id'    =>$id?$id:Auth::user()->id,
+            'mytitle'=>Auth::user()->title(),
+            'tot'   =>0
         ]);
     }
     /**
@@ -39,10 +43,11 @@ class MosController extends Controller{
     public function search($id = 0)
     {
         return view('mosco.search', [
-            'id'=>$id,
-            'me'=>Auth::user(),
-            'users' => User::All(),
-            'scores'=>Score::all()
+            'id'    =>$id,
+            'me'    =>Auth::user(),
+            'users' => User::all(),
+            'scores'=>Score::all(),
+            'acts'  =>Activity::all(),
         ]);
     }
     /**
@@ -52,9 +57,9 @@ class MosController extends Controller{
     public function show()
     {
 	    return view('mosco.show', [
-            'me'=>Auth::user(),
+            'me'    =>Auth::user(),
             'users' =>User::all(),
-            'navs'=>Nav::all(),
+            'navs'  =>Nav::all(),
             'scores'=>Score::all()
         ]);
     }
@@ -135,13 +140,13 @@ class MosController extends Controller{
          //   return response()->json(['success' => false,'info'=>"评分已结束"]);
         
         $input=$request->all();
-//'_token'=>'xxx','_1_userid_12'=>10,''=>10,'irst'=>'OK!',
+//'_token'=>'xxx','_1_2015211457_12'=>10,'_1_xx_xx'=>10,'irst'=>'OK!',
         $arr=array_keys($input);
-//'0'=>'token','1'=>'_1_userid_12'，'2'=>'_1_xx_xx','2'=>'irst'
+//0=>'token',1=>'_1_2015211457_12'，2=>'_1_xx_xx',3=>'irst'
 
         if(!Auth::check())
             return response(['success' => false,'info'=>"非法操作!"]);
-        $nav;$op;
+        $nav=null;$op=null;
         for($i=0;$i<count($arr);$i++)if($arr[$i][0]=='_'&&$arr[$i][1]!='t'){
             $op=explode('_',$arr[$i]);
             //[0]:'',[1]:nav,[2]:userid,[3]:sport_nav
@@ -151,11 +156,15 @@ class MosController extends Controller{
             }
             $this->recd($op[2],$input[$arr[$i]],$op[1]);
         }
+
+        if(!isset($nav))
+            return response()->json(['success' => true,'info'=>"无效提交"]);
+
         Result::firstOrCreate([
             'user_id' => Auth::user()->id,
             'nav_id'  => $nav
             ])->update(['finish'=>1]);//标记用户完成该项打分
-        return response()->json(['success' => true,'info'=>$op]);
+        return response()->json(['success' => true,'info'=>"成功提交"]);
     }
 
     private function output_score($u,$nav){
@@ -177,6 +186,7 @@ class MosController extends Controller{
         $array[$j+3]=round($u->mosco(),2);
         return $array;
     }
+
     public function output(){
         $me = Auth::User();
         $array;
@@ -207,4 +217,34 @@ class MosController extends Controller{
         })->export('xls');
         die();
     }
+    public function output_act(){
+        $me = Auth::User();
+        if($me->title()=="辅导员"){
+            $array=array();
+            $users = User::where('daban',$me->daban)->get();
+            $acts = Activity::All();
+            $array[0][0]='学号';
+            $array[0][1]='姓名';
+            foreach ($acts as $i => $act){
+                $array[0][$i+2]=$act->name;
+            }
+            array_push($array[0],"总分");
+            $n=Nav::find(8);//文娱体育
+            foreach ($users as $i => $u) if($u->title()!="辅导员"){
+                $array[$i+1][0]=$u->id;//学号
+                $array[$i+1][1]=$u->name;//姓名
+                foreach($acts as $j => $act){
+                    $array[$i+1][$j+2]=$u->oldval($u,$n,'6_'.$act->id);
+                }
+                array_push($array[$i+1],round($u->result($n),2));
+            }
+            Excel::create($me->daban.'文娱体育评分.'.date("Y-m-d-his"),function($excel) use ($array){
+                $excel->sheet('score', function($sheet) use ($array){
+                $sheet->rows($array);
+            });
+        })->export('xls');
+        }
+        die();
+    }
+
 }
