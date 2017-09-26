@@ -1,4 +1,5 @@
-#BUPTscs2.0 计院服务站
+# Moral Score System（德育分评分系统）
+
 ## 文档
 ### 环境
 apache2或者nginx
