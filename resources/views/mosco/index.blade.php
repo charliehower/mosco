@@ -60,15 +60,16 @@
                                         </td>
                                         <td>
                                         <div class="inline fields">
-                                            @for($v=1;$v<=5;++$v)
+                                            @for($v=$begin;$v<=$begin+1.01;$v+=0.2)
                                             <div class="field">
                                                 <div class="ui radio checkbox">
-                                                    <input type="radio" name="_{{$i->id}}_{{$user->id}}" value="{{$v}}" {{$oldval==$v?"checked":" " }} >
+                                                    <input type="radio" name="_{{$i->id}}_{{$user->id}}" value="{{$v}}" {{$oldval-$v<0.01&&$oldval-$v>-0.01?"checked":" " }} >
                                                     <label> {{$v}} </label>
                                                 </div>
                                             </div>
                                             @endfor
                                         </div>
+
                                         </td>
                                     </tr>
                                 @endif
@@ -241,15 +242,16 @@
                                     </td>
                                     <td>
                                     <div class="inline fields">
-                                        @for($v=1;$v<=5;++$v)
+                                        @for($v=$begin;$v<=$begin+1.01;$v+=0.2)
                                             <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="_{{$i->id}}_{{$user->id}}" value="{{$v}}" {{$oldval==$v?"checked":" " }} >
+                                                <input type="radio" name="_{{$i->id}}_{{$user->id}}" value="{{$v}}" {{$oldval-$v<0.01&&$oldval-$v>-0.01?"checked":" " }} >
                                                 <label> {{$v}} </label>
                                             </div>
                                             </div>
                                         @endfor
                                     </div>
+
                                     </td>
                                 </tr>
                             @endif
