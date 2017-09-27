@@ -42,7 +42,10 @@ php artisan key:generate #生成. env中的key
 # 迁移和填充数据库，数据在database/seeds相应文件里
 php artisan migrate --seed
 # 如果是回滚数据库（记录会被删除） php artisan migrate:refresh --seed
-# 部署
+# 基本上部署好了，最后记得清除一下配置缓存：
+php artisan config:cache
+# 如果修改了路由可以执行 php artisan route:cache 清除缓存
+# php artisan cache:clear 清除各种缓存
 php artisan serve #也可以不这样部署，配置nginx跳转到public目录即可
 # 如果migrate出现问题，可以把数据库的migration的表清空并删除其它表
 # 然后执行 composer dump-autoload
