@@ -2,9 +2,10 @@
 
 ## 文档
 ### 环境
-apache2或者nginx
-mysql
-composer
+- apache2或者nginx
+- php
+- mysql
+- composer
 ### 数据
 
 - 用户数据在 `/database/seeds/csvs/user.csv` 中，格式为
