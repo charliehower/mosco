@@ -84,75 +84,75 @@ class User extends Authenticatable
      * title rank score
      * 辅导员   1
      * 大班长   2  3.6
-     * 大班团支书3  3.6
+     * 大班团支书 3  3.6
      * 大班委   4  2.6
      * 小班长   5  2.6
-     * 小班团支书6  2.6
+     * 小班团支书 6  2.6
      * 小班委   7  1.6
     */
     public function toScore($ta){
         $mr=$this->rank();
         if(!$ta){
             //返回我的职位的起点分
-            if($mr<4)return 1;
-            if($mr<7)return 1;
-            if($mr==7||$mr==10)return 1;
+            if($mr<4)return 2.6;
+            if($mr<7)return 1.6;
+            if($mr==7||$mr==10)return 0.6;
             return 0;
         }
         $tr=$ta->rank();
         $m=$this->title();$t=$ta->title();
 
         //不能是自己，不能是不同大班的，不能是辅导员
-        if($ta->id==$this->id||$tr==1)
+        if($ta->id==$this->id||$ta->daban!=$this->daban||$tr==1)
             return 0;
 
 
         if($m=='辅导员'){
-            if($tr<4)return 1;
-            if($tr<7)return 1;
+            if($tr<4)return 2.6;
+            if($tr<7)return 1.6;
         }else if($m=='无'||$m=='宿舍长'){
             if($ta->class == $this->class){
                 if($t=='小班长'||$t=='小班团支书')
-                    return 1;
+                    return 1.6;
                 if($tr==7)
-                    return 1;
+                    return 0.6;
             }
         }else if($m=='大班长'){
             if($t=='小班长'||$tr==4)//本班的小班委
-                return 1;
+                return 1.6;
             if($tr==7 && $ta->class == $this->class)
-                return 1;
+                return 0.6;
         }else if($m=='大班团支书'){
             if($t=='小班团支书'||$tr==4)
-                return 1;
+                return 1.6;
             if($tr==7 && $ta->class == $this->class)
-                return 1;
+                return 0.6;
         }else if($m=='小班长'){
             if($t=='大班长')
-                return 1;
+                return 2.6;
             if($tr==7 && $ta->class == $this->class)
-                return 1;
+                return 0.6;
             if($t=='小班团支书' && $ta->class == $this->class)
-                return 1;
+                return 1.6;
         }else if($m=='小班团支书'){
             if($t=='大班团支书')
-                return 1;
+                return 2.6;
             if($ta->class == $this->class && $tr==7)
-                return 1;
+                return 0.6;
         }else if($mr==4){//我是大班委
             if($t=='大班长' || $t=='大班团支书')
-                return 1;
+                return 2.6;
             if($this->dy($ta))
-                return 1;
+                return 0.6;
             if($ta->class == $this->class && $tr==7)
-                return 1;
+                return 0.6;
         }else if($mr==7){//我是小班委
             if($ta->class == $this->class && ($t=='小班长'||$t=='小班团支书'))
-                return 1;
+                return 1.6;
             if($this->dy($ta))
-                return 1;
+                return 1.6;
             if($ta->class == $this->class && $tr==7)
-                return 1;
+                return 0.6;
         }
         return 0;
     }
