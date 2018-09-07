@@ -89,6 +89,8 @@ class User extends Authenticatable
      * 小班长   5  2.6
      * 小班团支书 6  2.6
      * 小班委   7  1.6
+     * 副书记   11 2.6
+     * 支委     12 1.6
     */
     public function toScore($ta){
         $mr=$this->rank();
@@ -108,8 +110,8 @@ class User extends Authenticatable
 
 
         if($m=='辅导员'){
-            if($tr<4)return 2.6;
-            if($tr<7)return 1.6;
+            if($tr<4||$tr==11)return 2.6;
+            if($tr<7||$tr==12)return 1.6;
         }else if($m=='无'||$m=='宿舍长'){
             if($ta->class == $this->class){
                 if($t=='小班长'||$t=='小班团支书')
@@ -164,7 +166,7 @@ class User extends Authenticatable
         if(!$this->_scores){
             $this->_scores=$this->hasMany('App\Score')->get();
         }
-        if($can&&$nav){
+        if($can!=null&&$nav!=null){
             foreach ($this->_scores as $key => $value) {
                 if($value->candiate==$can && $value->nav==$nav)
                 {
@@ -184,6 +186,7 @@ class User extends Authenticatable
             return $res->finish;
         return false;
     }
+    
     /*
     * 该用户完成的项目数
     */
@@ -211,7 +214,7 @@ class User extends Authenticatable
                     $sco=Score::where('candiate',$this->id)
                     ->where('nav', 'like', $i->id.'_%')->get()
                     ->sum('score');
-                    return min($sco,10);//文娱体育上限
+                    return min($sco,15);//文娱体育上限
                 }
                 $dsco=$this->defsco(0,$i);//满分
                 $msco=Score::where('candiate',$this->id)->where('nav',$i->id);//打分记录
@@ -258,11 +261,12 @@ class User extends Authenticatable
      * 我给ta的i号项目打分时默认选中的值（可能是打过的分数
      */
     public function oldval($ta,$nav,$navid=0){
+	if($ta->id==0)return 0;
         if($navid==0)$navid=$nav->id;
-        if($t=$this->scores($ta->id,$navid)){//打分记录里有记录
+        $t=$this->scores($ta->id,$navid);
+        if ($t!=null){//打分记录里有记录
             return $t->score;
         }
-
         if($nav->ename=='competition')
             return $this->award();//竞赛奖项
 

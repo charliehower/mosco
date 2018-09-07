@@ -13,14 +13,14 @@ class TitleUserTableCsvSeeder extends CsvSeeder
     public function __construct()
     {
         $this->table = 'title_user';
-        $this->filename = base_path().'/database/seeds/csvs/title_user.csv';
+        $this->filename = base_path().'/database/seeds/csvs/user_title.csv';
         $this->mapping = [
             0 => 'user_id',
     	    1 => 'title_id',
             2 => 'title',
-            3 => 'rank',
-            4 => 'score',
-            5 => 'time'
+//            3 => 'rank',
+//            4 => 'score',
+            3 => 'time'
        ];
     }
 

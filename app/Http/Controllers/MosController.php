@@ -7,6 +7,7 @@ use App\Nav;
 use App\Score;
 use App\User;
 use App\Result;
+use DB;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Exception\HttpResponseException;
@@ -96,7 +97,7 @@ class MosController extends Controller{
         ]);
         
         if(!$mres->finish){
-            $tres->increment('cnt');//加一个打分人数
+            $tres->update(['cnt'=>DB::raw('cnt+1')]);//加一个打分人数
         }
 
         if($can==$wo->id)//如果是自评，可能一次提交多个。

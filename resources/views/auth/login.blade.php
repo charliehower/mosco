@@ -18,28 +18,27 @@
 	<div class="ui container">
 		<h1 class="fnt fntlarge">BUPTscs</h1>
 	    <form class="ui segment form form-horizontal login" role="form" method="POST" action="{{ url('/login') }}">
-
-			  {!! csrf_field() !!}
+		  {!! csrf_field() !!}
 	        <div class="field">
 	        <div class="ui left icon input">
-	        	<i class="user icon"></i>
+		    <i class="user icon"></i>
 	            <input type="text" name="id" placeholder="学号"  value="{{ old('id') }}">
 	        </div>
 	        </div>
 	        <div class="field">
 	        <div class="ui left icon input">
-            <i class="lock icon"></i>
-            <input type="password" name="password" placeholder="密码(默认为学号)">
+		    <i class="lock icon"></i>
+		    <input type="password" name="password" placeholder="密码(默认为学号)">
           	</div>
 	        </div>
-			  <div class="field">
-			  <div class="col-md-6 col-md-offset-4">
-			    <div class="ui checkbox">
-			      <input type="checkbox" tabindex="0" name="remember" class="hidden">
-			      <label>下次自动登录</label>
-			    </div>
-			   </div>
-			  </div>
+		<div class="field">
+		<div class="col-md-6 col-md-offset-4">
+		    <div class="ui checkbox">
+		      	<input type="checkbox" tabindex="0" name="remember" class="hidden">
+			<label>下次自动登录</label>
+		    </div>
+                 </div>
+		 </div>
 	         @if(Session::has('message'))
 	         <div class="ui error message">
 	         <ul class="list"><li>{{ Session::get('message') }}</li></ul>
@@ -48,12 +47,12 @@
 	        <button class="ui fluid large button olive" type="submit">
 	        <i class="fa fa-btn fa-sign-in"></i>登录
 	        </button>
-				<br>
-				<a href="{{ env('YB_CALLBACK') }}">
-				  <button class="ui fluid large button blue" type="button">
-					<i class="fa fa-btn fa-sign-in"></i>通过 易班账号 登陆
-				  </button>
-				</a>
+		<br>
+		<a href="{{ env('YB_CALLBACK') }}">
+		  <button class="ui fluid large button blue" type="button">
+			<i class="fa fa-btn fa-sign-in"></i>通过 易班账号 登陆
+		  </button>
+		</a>
 	    </form>
 	</div>
 @endsection

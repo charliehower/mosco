@@ -1,7 +1,7 @@
 @extends('layouts.main',['now' => $now])
 @section('title','评分面板')
 @section('content')
-    <p id="hello">Hello，{{$me->name}}！班级：「{{$me->class}}」 id：「{{$me->id}}」</p>
+    <p id="hello">Hello，{{$me->name}}！班级：「{{$me->daban}} {{$me->class}}」 id：「{{$me->id}}」</p>
     <p>
     <?php if($mytitle)echo "任职：「".$mytitle."」"; ?>
     </p>
@@ -320,8 +320,11 @@
       <i class="close icon"></i>
       <div class="header">🤗</div>
       <ul class="list">
-        <li>大吉大利，大方给分~</li>
-        <li>填完了这个，晚上也没有鸡吃哦</li>
+<li><b>献血在竞赛加分处填写</b></li>
+	<li>德育、智育、竞赛鼓励分的总积分情况综合统计后得出每个学生本学年综合素质评价的考核成绩，作为评定学生奖学金以及三好学生、优秀干部等的依据。该竞赛鼓励分在大四保研时剔除，另外根据学院当年政策单独加竞赛加分。
+</li><li>德育分带来的名次浮动不得超过本专业人数的10%。
+<li>转专业同学的德育分，上半学期参加的文娱体育活动、担任的学生工作、宿舍卫生检查结果由原所在学院进行认定，并提交纸质版的认定材料。再由现学院依据认定材料，对照现学院的评定标准，以及下半学期转专业同学的表现，给出评分。
+</li>
       </ul>
     </div>
 @endsection
@@ -361,7 +364,7 @@
                     else {
                         btn.html("更新");
                         $('#progressbar').progress('increment');
-                        location.href='{{ url('mosco')}}/nav/{{$now==5?7:($now%9+1)}}';
+                        location.href='{{ url('mosco')}}/nav/{{$now==13?1:($now==5?11:($now+1))}}';
                     }
                 }else
                     alert(response.info);

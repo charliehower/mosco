@@ -45,7 +45,6 @@ class TitleTableSeeder extends Seeder
                 'rank' => 7,
                 'dy'   => 'sheng',
             ],
-
             [
                 'name' => '大班心理委员',//id=8
                 'rank' => 4,
@@ -56,7 +55,6 @@ class TitleTableSeeder extends Seeder
                 'rank' => 7,
                 'dy'   => 'xinli',
             ],
-
             [
                 'name' => '大班科技委员',//id=10
                 'rank' => 4,
@@ -89,7 +87,6 @@ class TitleTableSeeder extends Seeder
                 'rank' => 7,
                 'dy'   => 'xuan',
             ],
-
             [
                 'name' => '大班组织委员',//16
                 'rank' => 4,
@@ -100,22 +97,57 @@ class TitleTableSeeder extends Seeder
                 'rank' => 7,
                 'dy'   => 'zu',
             ],
-
+	    [
+                'name' => '大班文艺委员',//18
+                'rank' => 4,
+                'dy'   => 'wy',
+            ],
             [
-                'name' => '大班文体委员',//18
+                'name' => '小班文艺委员',//19
+                'rank' => 7,
+                'dy'   => 'wy',
+            ],
+            [
+                'name' => '大班体育委员',//20
                 'rank' => 4,
                 'dy'   => 'ti',
             ],
             [
-                'name' => '小班文体委',//19
+                'name' => '小班体育委员',//21
                 'rank' => 7,
                 'dy'   => 'ti',
             ],
             [
-                'name' => '宿舍长',//id=20
+                'name' => '宿舍长',//id=22
                 'rank' => 10,
                 'dy'   => 'sushe',
             ],
         ]);
+	DB::table('titles')->insert([
+	    [
+		'name' => '党支部副书记',//id=23
+		'rank' =>11
+	    ],
+	    [
+		'name' => '党支部宣传委员',
+		'rank' => 12
+	    ],
+	    [
+		'name' => '党支部青年委员',
+		'rank' => 12
+	    ],
+	    [
+		'name' => '党支部组织委员',
+		'rank' => 12
+	    ],
+	    [
+		'name' => '党支部纪检委员',
+		'rank' => 12
+	    ],
+	    [
+		'name' => '党支部统战委员',
+		'rank' => 12
+	    ],
+	]);
     }
 }

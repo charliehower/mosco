@@ -11,8 +11,8 @@ class TitleUser extends Model
         'user_id',
         'title_id',
         'title',
-        'rank',
-        'score',
+//        'rank',
+//        'score',
         'time',
     ];
      /**

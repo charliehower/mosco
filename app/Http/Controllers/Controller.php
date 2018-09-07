@@ -43,8 +43,7 @@ class Controller extends BaseController
         if(isset($input['type']) && $input['type'] == 'add'){ //插入操作
 	        if(!$u){
 	        	if(($xuehao!='') && ($xuehao[0] != '0') && (strlen($xuehao) < 11)){
-		        	$id=$DB::table('users')->insert(
-		            [
+		        	$id=DB::table('users')->insert([
 					    'id' => $xuehao,
 					    'name' => $input['name'],
 					    'class' => $input['class'],

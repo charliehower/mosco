@@ -1,13 +1,13 @@
 <?php return array (
   'app' => 
   array (
-    'env' => 'local',
-    'debug' => 'ture',
-    'url' => 'http://localhost',
+    'env' => 'production',
+    'debug' => true,
+    'url' => 'https://fwz.buptyiban.org',
     'timezone' => 'Asia/Shanghai',
     'locale' => 'zh-CN',
     'fallback_locale' => 'en',
-    'key' => 'base64:FUDSmlUzbVQ+MFmM+iOj4dwOpzquJiydBCVaxh+W3SE=',
+    'key' => 'base64:MmAVk4qdr3gQayLMoInQssXHo6FdQCJagjmKOJADHi8=',
     'cipher' => 'AES-256-CBC',
     'log' => 'single',
     'providers' => 
@@ -75,6 +75,136 @@
       'View' => 'Illuminate\\Support\\Facades\\View',
     ),
   ),
+  'mail' => 
+  array (
+    'driver' => 'smtp',
+    'host' => 'mailtrap.io',
+    'port' => '2525',
+    'from' => 
+    array (
+      'address' => NULL,
+      'name' => NULL,
+    ),
+    'encryption' => NULL,
+    'username' => NULL,
+    'password' => NULL,
+    'sendmail' => '/usr/sbin/sendmail -bs',
+  ),
+  'filesystems' => 
+  array (
+    'default' => 'local',
+    'cloud' => 's3',
+    'disks' => 
+    array (
+      'local' => 
+      array (
+        'driver' => 'local',
+        'root' => '/var/www/fwz/storage/app',
+      ),
+      'public' => 
+      array (
+        'driver' => 'local',
+        'root' => '/var/www/fwz/storage/app/public',
+        'visibility' => 'public',
+      ),
+      's3' => 
+      array (
+        'driver' => 's3',
+        'key' => 'your-key',
+        'secret' => 'your-secret',
+        'region' => 'your-region',
+        'bucket' => 'your-bucket',
+      ),
+    ),
+  ),
+  'session' => 
+  array (
+    'driver' => 'file',
+    'lifetime' => 120,
+    'expire_on_close' => false,
+    'encrypt' => false,
+    'files' => '/var/www/fwz/storage/framework/sessions',
+    'connection' => NULL,
+    'table' => 'sessions',
+    'lottery' => 
+    array (
+      0 => 2,
+      1 => 100,
+    ),
+    'cookie' => 'laravel_session',
+    'path' => '/',
+    'domain' => NULL,
+    'secure' => false,
+  ),
+  'cache' => 
+  array (
+    'default' => 'file',
+    'stores' => 
+    array (
+      'apc' => 
+      array (
+        'driver' => 'apc',
+      ),
+      'array' => 
+      array (
+        'driver' => 'array',
+      ),
+      'database' => 
+      array (
+        'driver' => 'database',
+        'table' => 'cache',
+        'connection' => NULL,
+      ),
+      'file' => 
+      array (
+        'driver' => 'file',
+        'path' => '/var/www/fwz/storage/framework/cache',
+      ),
+      'memcached' => 
+      array (
+        'driver' => 'memcached',
+        'servers' => 
+        array (
+          0 => 
+          array (
+            'host' => '127.0.0.1',
+            'port' => 11211,
+            'weight' => 100,
+          ),
+        ),
+      ),
+      'redis' => 
+      array (
+        'driver' => 'redis',
+        'connection' => 'default',
+      ),
+    ),
+    'prefix' => 'laravel',
+  ),
+  'services' => 
+  array (
+    'mailgun' => 
+    array (
+      'domain' => NULL,
+      'secret' => NULL,
+    ),
+    'ses' => 
+    array (
+      'key' => NULL,
+      'secret' => NULL,
+      'region' => 'us-east-1',
+    ),
+    'sparkpost' => 
+    array (
+      'secret' => NULL,
+    ),
+    'stripe' => 
+    array (
+      'model' => 'App\\User',
+      'key' => NULL,
+      'secret' => NULL,
+    ),
+  ),
   'auth' => 
   array (
     'defaults' => 
@@ -113,180 +243,6 @@
         'expire' => 60,
       ),
     ),
-  ),
-  'broadcasting' => 
-  array (
-    'default' => 'pusher',
-    'connections' => 
-    array (
-      'pusher' => 
-      array (
-        'driver' => 'pusher',
-        'key' => NULL,
-        'secret' => NULL,
-        'app_id' => NULL,
-        'options' => 
-        array (
-        ),
-      ),
-      'redis' => 
-      array (
-        'driver' => 'redis',
-        'connection' => 'default',
-      ),
-      'log' => 
-      array (
-        'driver' => 'log',
-      ),
-    ),
-  ),
-  'cache' => 
-  array (
-    'default' => 'file',
-    'stores' => 
-    array (
-      'apc' => 
-      array (
-        'driver' => 'apc',
-      ),
-      'array' => 
-      array (
-        'driver' => 'array',
-      ),
-      'database' => 
-      array (
-        'driver' => 'database',
-        'table' => 'cache',
-        'connection' => NULL,
-      ),
-      'file' => 
-      array (
-        'driver' => 'file',
-        'path' => '/Users/flipped/Mosco/storage/framework/cache',
-      ),
-      'memcached' => 
-      array (
-        'driver' => 'memcached',
-        'servers' => 
-        array (
-          0 => 
-          array (
-            'host' => '127.0.0.1',
-            'port' => 11211,
-            'weight' => 100,
-          ),
-        ),
-      ),
-      'redis' => 
-      array (
-        'driver' => 'redis',
-        'connection' => 'default',
-      ),
-    ),
-    'prefix' => 'laravel',
-  ),
-  'compile' => 
-  array (
-    'files' => 
-    array (
-    ),
-    'providers' => 
-    array (
-    ),
-  ),
-  'database' => 
-  array (
-    'fetch' => 8,
-    'default' => 'mysql',
-    'connections' => 
-    array (
-      'sqlite' => 
-      array (
-        'driver' => 'sqlite',
-        'database' => '/Users/flipped/Mosco/database/database.sqlite',
-        'prefix' => '',
-      ),
-      'mysql' => 
-      array (
-        'driver' => 'mysql',
-        'host' => '127.0.0.1',
-        'port' => '3306',
-        'database' => 'mosco2',
-        'username' => 'root',
-        'password' => 'raowj',
-        'charset' => 'utf8',
-        'collation' => 'utf8_unicode_ci',
-        'prefix' => '',
-        'strict' => false,
-        'engine' => NULL,
-      ),
-      'pgsql' => 
-      array (
-        'driver' => 'pgsql',
-        'host' => '127.0.0.1',
-        'port' => '3306',
-        'database' => 'mosco2',
-        'username' => 'root',
-        'password' => 'raowj',
-        'charset' => 'utf8',
-        'prefix' => '',
-        'schema' => 'public',
-      ),
-    ),
-    'migrations' => 'migrations',
-    'redis' => 
-    array (
-      'cluster' => false,
-      'default' => 
-      array (
-        'host' => '127.0.0.1',
-        'password' => NULL,
-        'port' => '6379',
-        'database' => 0,
-      ),
-    ),
-  ),
-  'filesystems' => 
-  array (
-    'default' => 'local',
-    'cloud' => 's3',
-    'disks' => 
-    array (
-      'local' => 
-      array (
-        'driver' => 'local',
-        'root' => '/Users/flipped/Mosco/storage/app',
-      ),
-      'public' => 
-      array (
-        'driver' => 'local',
-        'root' => '/Users/flipped/Mosco/storage/app/public',
-        'visibility' => 'public',
-      ),
-      's3' => 
-      array (
-        'driver' => 's3',
-        'key' => 'your-key',
-        'secret' => 'your-secret',
-        'region' => 'your-region',
-        'bucket' => 'your-bucket',
-      ),
-    ),
-  ),
-  'mail' => 
-  array (
-    'driver' => 'smtp',
-    'host' => 'mailtrap.io',
-    'port' => '2525',
-    'from' => 
-    array (
-      'address' => NULL,
-      'name' => NULL,
-    ),
-    'encryption' => NULL,
-    'username' => NULL,
-    'password' => NULL,
-    'sendmail' => '/usr/sbin/sendmail -bs',
   ),
   'queue' => 
   array (
@@ -334,56 +290,100 @@
       'table' => 'failed_jobs',
     ),
   ),
-  'services' => 
+  'broadcasting' => 
   array (
-    'mailgun' => 
+    'default' => 'pusher',
+    'connections' => 
     array (
-      'domain' => NULL,
-      'secret' => NULL,
+      'pusher' => 
+      array (
+        'driver' => 'pusher',
+        'key' => NULL,
+        'secret' => NULL,
+        'app_id' => NULL,
+        'options' => 
+        array (
+        ),
+      ),
+      'redis' => 
+      array (
+        'driver' => 'redis',
+        'connection' => 'default',
+      ),
+      'log' => 
+      array (
+        'driver' => 'log',
+      ),
     ),
-    'ses' => 
-    array (
-      'key' => NULL,
-      'secret' => NULL,
-      'region' => 'us-east-1',
-    ),
-    'sparkpost' => 
-    array (
-      'secret' => NULL,
-    ),
-    'stripe' => 
-    array (
-      'model' => 'App\\User',
-      'key' => NULL,
-      'secret' => NULL,
-    ),
-  ),
-  'session' => 
-  array (
-    'driver' => 'file',
-    'lifetime' => 120,
-    'expire_on_close' => false,
-    'encrypt' => false,
-    'files' => '/Users/flipped/Mosco/storage/framework/sessions',
-    'connection' => NULL,
-    'table' => 'sessions',
-    'lottery' => 
-    array (
-      0 => 2,
-      1 => 100,
-    ),
-    'cookie' => 'laravel_session',
-    'path' => '/',
-    'domain' => NULL,
-    'secure' => false,
   ),
   'view' => 
   array (
     'paths' => 
     array (
-      0 => '/Users/flipped/Mosco/resources/views',
+      0 => '/var/www/fwz/resources/views',
     ),
-    'compiled' => '/Users/flipped/Mosco/storage/framework/views',
+    'compiled' => '/var/www/fwz/storage/framework/views',
+  ),
+  'compile' => 
+  array (
+    'files' => 
+    array (
+    ),
+    'providers' => 
+    array (
+    ),
+  ),
+  'database' => 
+  array (
+    'fetch' => 8,
+    'default' => 'mysql',
+    'connections' => 
+    array (
+      'sqlite' => 
+      array (
+        'driver' => 'sqlite',
+        'database' => '/var/www/fwz/database/database.sqlite',
+        'prefix' => '',
+      ),
+      'mysql' => 
+      array (
+        'driver' => 'mysql',
+        'host' => '127.0.0.1',
+        'port' => '3306',
+        'database' => 'yiban_fwz_scs',
+        'username' => 'yiban_fwz',
+        'password' => 'oVoVZdsuEY7KJElp',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'prefix' => '',
+        'strict' => false,
+        'engine' => NULL,
+      ),
+      'pgsql' => 
+      array (
+        'driver' => 'pgsql',
+        'host' => '127.0.0.1',
+        'port' => '3306',
+        'database' => 'yiban_fwz_scs',
+        'username' => 'yiban_fwz',
+        'password' => 'oVoVZdsuEY7KJElp',
+        'charset' => 'utf8',
+        'prefix' => '',
+        'schema' => 'public',
+      ),
+    ),
+    'migrations' => 'migrations',
+    'redis' => 
+    array (
+      'cluster' => false,
+      'default' => 
+      array (
+        'host' => '127.0.0.1',
+        'password' => NULL,
+        'port' => '6379',
+        'database' => 0,
+      ),
+    ),
   ),
   'debugbar' => 
   array (
@@ -392,7 +392,7 @@
     array (
       'enabled' => true,
       'driver' => 'file',
-      'path' => '/Users/flipped/Mosco/storage/debugbar',
+      'path' => '/var/www/fwz/storage/debugbar',
       'connection' => NULL,
       'provider' => '',
     ),
@@ -482,7 +482,7 @@
         'host' => 'localhost',
         'port' => 11211,
       ),
-      'dir' => '/Users/flipped/Mosco/storage/cache',
+      'dir' => '/var/www/fwz/storage/cache',
     ),
     'properties' => 
     array (
@@ -548,7 +548,7 @@
       ),
       'store' => 
       array (
-        'path' => '/Users/flipped/Mosco/storage/exports',
+        'path' => '/var/www/fwz/storage/exports',
         'returnInfo' => false,
       ),
       'pdf' => 
@@ -558,15 +558,15 @@
         array (
           'DomPDF' => 
           array (
-            'path' => '/Users/flipped/Mosco/vendor/dompdf/dompdf/',
+            'path' => '/var/www/fwz/vendor/dompdf/dompdf/',
           ),
           'tcPDF' => 
           array (
-            'path' => '/Users/flipped/Mosco/vendor/tecnick.com/tcpdf/',
+            'path' => '/var/www/fwz/vendor/tecnick.com/tcpdf/',
           ),
           'mPDF' => 
           array (
-            'path' => '/Users/flipped/Mosco/vendor/mpdf/mpdf/',
+            'path' => '/var/www/fwz/vendor/mpdf/mpdf/',
           ),
         ),
       ),

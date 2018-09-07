@@ -36,9 +36,9 @@
       <th>序号</th>
       <th>学号</th>
       <th>姓名</th>
-      <th>大班</th>
       <th>班级</th>
       <th>职务</th>
+      <th>打分项<th>
       <th>操作</th>
     </thead>
       <?php
@@ -52,6 +52,7 @@
     <td class="userclass">{{$u->class}}</td>
     <td><span class="usertitles"><?php foreach($u->titles() as $title)echo ($title->name.' '); ?></span>
     <span class="userworktime" hidden>{{$u->worktime()}}</span></td>
+    <td> {{$u->comnum()}}</td>
     <td><button class="ui olive button change"  type="submit">修改</button> 
    <button class="ui negative button delStu"  type="submit"> 删除</button></td>
     </tr> 

@@ -12,6 +12,7 @@ class UserTableCsvSeeder extends CsvSeeder
 
     public function __construct()
     {
+	setlocale(LC_ALL, "US");
         $this->table = 'users';
         $this->filename = base_path().'/database/seeds/csvs/user.csv';
         $this->hashable = 'password';
